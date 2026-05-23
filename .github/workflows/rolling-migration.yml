@@ -1,0 +1,36 @@
+name: Rolling Migration
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rolling-migration:
+    runs-on: ubuntu-24.04-arm
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        job_index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      # 2. 配置 Python
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      # 3. 安装 requests
+      - name: Install dependencies
+        run: pip install requests
+
+      # 4. 启动核心循环
+      - name: Rolling Migration
+        env:
+          ATOMGIT_TOKEN: ${{ secrets.ATOMGIT_TOKEN }}
+          ATOMGIT_USER: ${{ secrets.ATOMGIT_USER }}
+          ATOMGIT_EMAIL: ${{ secrets.ATOMGIT_EMAIL }}
+        run: ./rolling-migration.sh

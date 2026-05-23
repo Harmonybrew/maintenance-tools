@@ -1,0 +1,28 @@
+name: Accept Bump
+
+on:
+  workflow_dispatch:
+
+jobs:
+  accept-bump:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      # 1. 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      # 2. 配置 Python
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      # 3. 安装 requests
+      - name: Install dependencies
+        run: pip install requests
+
+      # 4. 自动添加标签
+      - name: Accept Bump
+        env:
+          ATOMGIT_TOKEN: ${{ secrets.ATOMGIT_TOKEN }}
+        run: ./accept-bump.py
