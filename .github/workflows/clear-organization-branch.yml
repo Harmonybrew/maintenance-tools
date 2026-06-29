@@ -1,0 +1,29 @@
+name: Clear Organization Branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  clear-organization-branch:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      # 1. 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      # 2. 配置 Python
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      # 3. 安装 requests
+      - name: Install dependencies
+        run: pip install requests
+
+      # 4. 清理组织仓库无用分支
+      #    需要 ATOMGIT_TOKEN（具有 Harmonybrew/homebrew-core 组织管理员权限）
+      - name: Clear Organization Branch
+        env:
+          ATOMGIT_TOKEN: ${{ secrets.ATOMGIT_TOKEN }}
+        run: ./clear-organization-branch.py
