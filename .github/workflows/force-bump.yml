@@ -1,0 +1,41 @@
+name: Force Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      formula:
+        description: '要强制 bump 的 Formula 名称（如 hello、python@3.12）'
+        required: true
+        type: string
+      branch:
+        description: '要强制推送到的 Harmonybrew/homebrew-core 目标分支（如 bump-hello-1.0.0）'
+        required: true
+        type: string
+
+jobs:
+  force-bump:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      # 1. 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      # 2. 配置 Python
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+
+      # 3. 安装 requests
+      - name: Install dependencies
+        run: pip install requests
+
+      # 4. 强制 bump 指定 Formula 到指定分支
+      #     使用 --bump 模式：使用最新上游 Formula 重新构建，
+      #     并将改动 push -f 到指定分支，不生成 PR
+      - name: Force Bump
+        env:
+          ATOMGIT_TOKEN: ${{ secrets.ATOMGIT_TOKEN }}
+          ATOMGIT_USER: ${{ secrets.ATOMGIT_USER }}
+          ATOMGIT_EMAIL: ${{ secrets.ATOMGIT_EMAIL }}
+        run: ./force-bump.sh "${{ inputs.formula }}" "${{ inputs.branch }}"
