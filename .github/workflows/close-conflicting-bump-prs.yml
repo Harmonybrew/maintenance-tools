@@ -1,10 +1,10 @@
-name: Close Failed Bump PRs
+name: Close Conflicting Bump PRs
 
 on:
   workflow_dispatch:
 
 jobs:
-  close-failed-bump-prs:
+  close-conflicting-bump-prs:
     runs-on: ubuntu-24.04-arm
     steps:
       # 1. 检出代码
@@ -22,7 +22,7 @@ jobs:
         run: pip install requests
 
       # 4. 关闭有冲突的失败 PR
-      - name: Close Failed Bump PRs
+      - name: Close Conflicting Bump PRs
         env:
           ATOMGIT_TOKEN: ${{ secrets.ATOMGIT_TOKEN }}
-        run: ./close-failed-bump-prs.py
+        run: ./close-conflicting-bump-prs.py
