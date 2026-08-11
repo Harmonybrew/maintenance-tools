@@ -8,7 +8,7 @@ OWNER = "Harmonybrew"  # 根据实际仓库所有者修改
 REPO = "homebrew-core"  # 根据实际仓库名修改
 TARGET_STRING = "replacement for"
 ADD_LABEL = "request-ci"
-MAX_PROCESS_LIMIT = 50  # 每次最多处理的 PR 数量上限
+MAX_PROCESS_LIMIT = 1000  # 每次最多处理的 PR 数量上限
 # ==================================================
 
 # 检查环境变量

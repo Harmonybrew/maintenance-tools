@@ -8,7 +8,7 @@ OWNER = "Harmonybrew"  # 根据实际仓库所有者修改
 REPO = "homebrew-core"  # 根据实际仓库名修改
 REQUIRED_ONLY_LABEL = "bump-formula-pr"  # 有且仅有的目标标签
 ADD_LABEL = "request-ci"  # 准备添加的标签
-MAX_PROCESS_LIMIT = 50  # 每次最多处理的 PR 数量上限
+MAX_PROCESS_LIMIT = 1000  # 每次最多处理的 PR 数量上限
 # ==================================================
 
 # 检查环境变量
