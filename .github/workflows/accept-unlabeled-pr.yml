@@ -1,10 +1,10 @@
-name: Accept Replacement Pr
+name: Accept Unlabeled Pr
 
 on:
   workflow_dispatch:
 
 jobs:
-  accept-replacement-pr:
+  accept-unlabeled-pr:
     runs-on: ubuntu-24.04-arm
     steps:
       # 1. 检出代码
@@ -22,7 +22,7 @@ jobs:
         run: pip install requests
 
       # 4. 自动添加标签
-      - name: Accept Replacement Pr
+      - name: Accept Unlabeled Pr
         env:
           ATOMGIT_TOKEN: ${{ secrets.ATOMGIT_TOKEN }}
-        run: ./accept-replacement-pr.py
+        run: ./accept-unlabeled-pr.py

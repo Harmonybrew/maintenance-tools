@@ -6,7 +6,7 @@ import requests
 # ==================== 配置区域 ====================
 OWNER = "Harmonybrew"  # 根据实际仓库所有者修改
 REPO = "homebrew-core"  # 根据实际仓库名修改
-TARGET_STRING = "replacement for"
+TARGET_STRING = "replacement for"  # 替代 PR 的标题标识，这类 PR 应被筛掉
 ADD_LABEL = "request-ci"
 MAX_PROCESS_LIMIT = 1000  # 每次最多处理的 PR 数量上限
 # ==================================================
@@ -46,7 +46,7 @@ def add_label_to_pr(number, labels):
 
 def main():
     print(f"[*] Starting scan for {OWNER}/{REPO} (Using requests)...")
-    print(f"[*] Target condition: Title contains '{TARGET_STRING}' and has NO labels.")
+    print(f"[*] Target condition: PR has NO labels, and title does NOT contain '{TARGET_STRING}'.")
     print(f"[*] Max process limit set to: {MAX_PROCESS_LIMIT}")
     print("--------------------------------------------------")
 
@@ -67,8 +67,8 @@ def main():
             labels = pr.get("labels", [])
             pr_number = pr.get("number")
 
-            # 条件判断：标题包含目标字符串，且 label 数量为 0
-            if TARGET_STRING in title and len(labels) == 0:
+            # 条件判断：label 数量为 0 且标题不含替代标识（TARGET_STRING）的 PR 才审批
+            if len(labels) == 0 and TARGET_STRING not in title:
                 print(f"[+ ] Found matching PR #{pr_number}: '{title}'")
 
                 # 执行打标签操作
